@@ -4,9 +4,9 @@ CFLAGS = -g -Os
 FC = mpifort
 FCFLAGS = -g -Os
 
-all: test_reduce.x
+all: test_reduce.x mcve.x
 
-%.x: %.F90 trampoline.o
+%.x: %.F90 trampoline.o get_cptr.o
 	$(FC) $(FCFLAGS) $^ -o $@
 
 %.o: %.c
