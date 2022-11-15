@@ -1,7 +1,7 @@
-CC = mpicc
+CC = mpiicc -cc=icx
 CFLAGS = -g -Os
 
-FC = mpifort
+FC = mpiifort -fc=ifx
 FCFLAGS = -g -Os
 
 all: test_reduce.x mcve.x

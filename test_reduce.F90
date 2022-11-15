@@ -76,6 +76,10 @@ end module x
 program main
     use m
     use x
+    integer, dimension(:), allocatable :: fpi, fpo
     procedure(M_User_function), pointer :: fp => NULL()
+    allocate( fpi(10), fpo(10) )
     fp => X_function
+    print*,'LOC: ',loc(fpi),loc(fpo)
+    call fp( fpi, fpo, 10, MPI_INT )
 end program main
