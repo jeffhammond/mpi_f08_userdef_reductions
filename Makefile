@@ -1,8 +1,8 @@
 CC = mpicc
-CFLAGS = -g -Wall -Os
+CFLAGS = -g -Os
 
 FC = mpifort
-FCFLAGS = -g -Wall -Os
+FCFLAGS = -g -Os
 
 all: test_reduce.x
 
