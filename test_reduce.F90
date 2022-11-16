@@ -19,9 +19,6 @@ end module i
 
 module m
 
-    use mpi_f08
-    use i
-
     contains
 
         subroutine M_Allreduce(sendbuf, recvbuf, count, datatype, op, comm, ierror)
@@ -38,8 +35,6 @@ module m
 end module m
 
 module x
-
-    use mpi_f08
 
     contains
 
@@ -62,8 +57,9 @@ module x
 end module x
 
 program main
-    use m
-    use x
+    use mpi_f08, only : MPI_INT
+    use i, only : M_User_function
+    use x, only : X_function
     integer, dimension(:), allocatable, target :: fpi, fpo
     procedure(M_User_function), pointer :: fp => NULL()
     allocate( fpi(10), fpo(10) )
