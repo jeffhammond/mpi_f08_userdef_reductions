@@ -54,21 +54,31 @@ module x
     contains
 
     subroutine X_function(invec, inoutvec, len, datatype)
-        use, intrinsic :: iso_c_binding, only : c_ptr, c_f_pointer
+        use, intrinsic :: iso_c_binding, only : c_ptr, c_loc, c_f_pointer
         use mpi_f08, only : MPI_Datatype
         use f, only : get_cptr
         implicit none
-        type(*), dimension(..), intent(in) :: invec
-        type(*), dimension(..), intent(inout) :: inoutvec
+        type(*), dimension(..), target, intent(in) :: invec
+        type(*), dimension(..), target, intent(inout) :: inoutvec
         integer, intent(in) :: len
         type(MPI_Datatype), intent(in) :: datatype
         !
         type(c_ptr) :: cpi, cpo
         integer, dimension(:), pointer :: fpi, fpo
+#if 0
         call get_cptr(invec,cpi)
         call get_cptr(inoutvec,cpo)
         call c_f_pointer(cpi,fpi,[size(invec)])
         call c_f_pointer(cpo,fpo,[size(inoutvec)])
+#elif 0
+        call c_f_pointer(invec,fpi,[size(invec)])
+        call c_f_pointer(inoutvec,fpo,[size(inoutvec)])
+#else
+        cpi = c_loc(invec)
+        cpo = c_loc(inoutvec)
+        call c_f_pointer(cpi,fpi,[size(invec)])
+        call c_f_pointer(cpo,fpo,[size(inoutvec)])
+#endif
     end subroutine
 
 end module x
@@ -76,7 +86,7 @@ end module x
 program main
     use m
     use x
-    integer, dimension(:), allocatable :: fpi, fpo
+    integer, dimension(:), allocatable, target :: fpi, fpo
     procedure(M_User_function), pointer :: fp => NULL()
     allocate( fpi(10), fpo(10) )
     fp => X_function
