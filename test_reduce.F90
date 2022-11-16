@@ -17,8 +17,8 @@ module i
         use mpi_f08, only : MPI_Datatype
         implicit none
         !type(c_ptr), value :: invec, inoutvec
-        type(*), dimension(..), intent(in) :: invec
-        type(*), dimension(..), intent(inout) :: inoutvec
+        type(*), dimension(..), target, intent(in) :: invec
+        type(*), dimension(..), target, intent(inout) :: inoutvec
         integer, intent(in) :: len
         type(MPI_Datatype), intent(in) :: datatype
     end subroutine
