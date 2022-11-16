@@ -6,7 +6,7 @@ FCFLAGS = -g -Os
 
 all: test_reduce.x mcve.x
 
-%.x: %.F90 trampoline.o get_cptr.o
+%.x: %.F90 trampoline.o
 	$(FC) $(FCFLAGS) $^ -o $@
 
 %.o: %.c

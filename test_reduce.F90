@@ -52,6 +52,17 @@ module x
         cpo = c_loc(inoutvec)
         call c_f_pointer(cpi,fpi,[size(invec)])
         call c_f_pointer(cpo,fpo,[size(inoutvec)])
+        fpo = fpo + fpi
+    end subroutine
+
+    subroutine Y_function(invec, inoutvec, len, datatype)
+        use mpi_f08, only : MPI_Datatype
+        implicit none
+        real, dimension(:), target, intent(in) :: invec
+        real, dimension(:), target, intent(inout) :: inoutvec
+        integer, intent(in) :: len
+        type(MPI_Datatype), intent(in) :: datatype
+        inoutvec = inoutvec +  invec
     end subroutine
 
 end module x
@@ -59,11 +70,11 @@ end module x
 program main
     use mpi_f08, only : MPI_INT
     use i, only : M_User_function
-    use x, only : X_function
+    use x, only : X_function, Y_function
     integer, dimension(:), allocatable, target :: fpi, fpo
     procedure(M_User_function), pointer :: fp => NULL()
     allocate( fpi(10), fpo(10) )
-    fp => X_function
+    fp => Y_function
     print*,'LOC: ',loc(fpi),loc(fpo)
     call fp( fpi, fpo, 10, MPI_INT )
 end program main
