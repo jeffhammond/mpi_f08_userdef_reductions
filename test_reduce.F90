@@ -1,13 +1,3 @@
-module f
-    interface
-        subroutine get_cptr(x,y) bind(C)
-            use, intrinsic :: iso_c_binding, only : c_ptr
-            type(*), dimension(..), intent(in) :: x
-            type(c_ptr), intent(out) :: y
-        end subroutine
-    end interface
-end module f
-
 module i
 
     abstract interface
@@ -56,7 +46,6 @@ module x
     subroutine X_function(invec, inoutvec, len, datatype)
         use, intrinsic :: iso_c_binding, only : c_ptr, c_loc, c_f_pointer
         use mpi_f08, only : MPI_Datatype
-        use f, only : get_cptr
         implicit none
         type(*), dimension(..), target, intent(in) :: invec
         type(*), dimension(..), target, intent(inout) :: inoutvec
