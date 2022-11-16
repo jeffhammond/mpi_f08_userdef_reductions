@@ -62,23 +62,12 @@ module x
         type(*), dimension(..), target, intent(inout) :: inoutvec
         integer, intent(in) :: len
         type(MPI_Datatype), intent(in) :: datatype
-        !
         type(c_ptr) :: cpi, cpo
         integer, dimension(:), pointer :: fpi, fpo
-#if 0
-        call get_cptr(invec,cpi)
-        call get_cptr(inoutvec,cpo)
-        call c_f_pointer(cpi,fpi,[size(invec)])
-        call c_f_pointer(cpo,fpo,[size(inoutvec)])
-#elif 0
-        call c_f_pointer(invec,fpi,[size(invec)])
-        call c_f_pointer(inoutvec,fpo,[size(inoutvec)])
-#else
         cpi = c_loc(invec)
         cpo = c_loc(inoutvec)
         call c_f_pointer(cpi,fpi,[size(invec)])
         call c_f_pointer(cpo,fpo,[size(inoutvec)])
-#endif
     end subroutine
 
 end module x
